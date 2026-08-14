@@ -48,6 +48,16 @@ enableEmoji = true
     url = "/docs/"
     weight = 10
   [[menu.main]]
+    identifier = "comparisons"
+    name = "Prolog → Tln"
+    url = "/comparisons/"
+    weight = 14
+  [[menu.main]]
+    identifier = "beyond"
+    name = "Beyond Prolog"
+    url = "/beyond-prolog/"
+    weight = 18
+  [[menu.main]]
     identifier = "plugins"
     name = "Plugins"
     url = "/plugins/"

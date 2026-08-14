@@ -5,7 +5,7 @@ description: "Modernize Prolog expert systems into a deterministic, testable, da
 
 # [Tln](https://github.com/opentalon/tln-language) — The Modern Expert-System Language
 
-**Tln modernizes Prolog expert systems** into a deterministic, testable, data-native rule
+**Tln modernizes [Prolog](https://en.wikipedia.org/wiki/Prolog) expert systems** into a deterministic, testable, data-native rule
 platform. Domain experts write rules that read like English; a native Go engine plans and
 evaluates them over your live data — with built-in **ML primitives**, first-class **MCP tool
 orchestration**, and a **`.tln.test`** framework.
@@ -15,7 +15,15 @@ idea (facts, rules, inference) and modernizes everything around it: no `assert/r
 spaghetti, no hand-rolled query-and-format plumbing, no "trust me, it works." Same logic, modern
 platform.
 
-[Get started →](/docs/getting-started/) · [Prolog → Tln →](/comparisons/) · [Beyond Prolog →](/beyond-prolog/)
+## Why Tln?
+
+The world moves faster than it did in 1995. We have new languages, new frameworks, and — above
+all — LLMs. That shift is exactly what calls for a Prolog successor built for today's world: one
+with native **MCP support**, a **plugin system**, and more.
+
+And Tln isn't just a language — it's a whole **ecosystem**: the language itself, plugins,
+databases, and even agentic orchestration. Connecting expert systems to **agents**, **MCP**, and
+**business rules** is the goal of Tln.
 
 ---
 
