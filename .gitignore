@@ -1,0 +1,7 @@
+# Hugo build output (CI builds & deploys this; not committed)
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# OS / editor
+.DS_Store

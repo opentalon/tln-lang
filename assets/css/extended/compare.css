@@ -1,0 +1,58 @@
+/* Side-by-side Prolog -> Tln comparison layout */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  align-items: stretch;
+}
+
+.compare-pane {
+  min-width: 0; /* allow children to shrink so <pre> can scroll instead of blowing out the grid */
+  display: flex;
+  flex-direction: column;
+}
+
+.compare-pane__title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 0.4rem;
+}
+
+.compare-pane--tln .compare-pane__title {
+  color: var(--tln-accent, #7ee787);
+  opacity: 0.95;
+}
+
+.compare-pane pre {
+  height: 100%;
+  margin: 0;
+  overflow-x: auto;
+}
+
+/* Small, dense code text in comparison panes. Scoped to .post-content and
+   specific enough to beat PaperMod's .post-content code{font-size:.78em}. */
+.post-content .compare-pane pre,
+.post-content .compare-pane pre code {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Wider comparison boxes on large screens. Content is left-aligned next to
+   the sidebar, so the block just extends rightward past the text column. */
+@media (min-width: 1200px) {
+  .post-content .compare {
+    width: min(1340px, calc(100vw - 19rem));
+  }
+}
+
+/* Stack on narrow screens */
+@media (max-width: 768px) {
+  .compare {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}

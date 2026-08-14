@@ -1,0 +1,32 @@
+# Tln — the modern expert-system language
+
+> Tln modernizes Prolog expert systems (ISO/IEC 13211-1:1995) into a deterministic, testable,
+> data-native rule platform. A native Go engine (lexer → parser → validator → planner → executor)
+> evaluates readable rule blocks over a pluggable FactStore. Rules read like English; facts are
+> loaded from external systems (not written in .tln). Built-in ML primitives, first-class MCP tool
+> orchestration, and a .tln.test framework. In production it is the decision core of OpenTalon,
+> the enterprise AI-orchestration ecosystem (Expert-in-the-Loop: the LLM handles intent, Tln
+> handles knowledge and inference).
+
+## Docs
+- [Getting Started](https://tln-lang.org/docs/getting-started/): Hello World, the family-tree/ancestor classic, the mental model (facts vs rules, EITL), and the CLI (tln build/test/run/explain/repl).
+- [Language Reference](https://tln-lang.org/docs/reference/): core blocks (define, rule, detect, recommend, combine), values, operators, selectors, templates, priorities.
+
+## Prolog → Tln (side-by-side comparisons; ISO Prolog left, Tln right)
+- [Insurance claims](https://tln-lang.org/comparisons/insurance-claims/): block/allow rules, cap detection, conflict resolution by priority.
+- [Derived predicates & recursion](https://tln-lang.org/comparisons/reasoning-recursion/): derive/detect chains, and negation-through-recursion under well-founded semantics (where ISO Prolog's SLDNF loops).
+- [Fleet maintenance](https://tln-lang.org/comparisons/fleet-maintenance/): define/detect service intervals, and a forecast Prolog can't express.
+
+## Beyond Prolog
+- [MCP tools & workflows](https://tln-lang.org/beyond-prolog/mcp-workflows/): transport-free core + ToolResolver plugin (tln-mcp); reactive on-change → workflow, scheduled collect, remediate. Prolog has no native tool I/O.
+- [Built-in ML](https://tln-lang.org/beyond-prolog/ml/): 11 explainable primitives — predict (CART), classify (kNN), forecast (exp smoothing), cluster (DBSCAN), find similar (cosine), anomaly (z-score/Grubbs), learned thresholds, PPR.
+- [Testing](https://tln-lang.org/beyond-prolog/testing/): the .tln.test framework — given / when / expect.
+
+## Production
+- [OpenTalon](https://tln-lang.org/opentalon/): the enterprise AI-orchestration system running on Tln; every IO edge is an isolated plugin (tln-mcp tools, tln-db storage, channels, guard-llm, weaviate).
+
+## Source
+- Language: https://github.com/opentalon/tln-language
+- MCP tool plugin: https://github.com/opentalon/tln-mcp
+- Fact store: https://github.com/opentalon/tln-db
+- Orchestration: https://github.com/opentalon/opentalon

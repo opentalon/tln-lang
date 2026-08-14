@@ -1,0 +1,5 @@
+{{- /* Ship the client-side Tln syntax highlighter (fingerprinted + minified). */ -}}
+{{- with resources.Get "js/tln-highlight.js" }}
+  {{- $js := . | minify | fingerprint -}}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{- end }}

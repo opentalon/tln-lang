@@ -1,0 +1,88 @@
+/*
+ * Left-sidebar navigation. Transforms PaperMod's top header into a fixed
+ * left column on wide screens; falls back to the default top nav on
+ * tablet/mobile so it stays responsive.
+ */
+
+/* --- Wide screens: fixed left sidebar --- */
+@media (min-width: 1024px) {
+  body {
+    padding-left: 16rem;
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 16rem;
+    border-right: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--theme);
+    overflow-y: auto;
+    z-index: 40;
+  }
+
+  .header .header-nav {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 1.4rem 1.1rem;
+    gap: 0.4rem;
+    line-height: 1.4; /* override PaperMod's 60px header line-height */
+  }
+
+  .header .logo {
+    justify-content: space-between;
+    line-height: 1.3;
+  }
+
+  .header .logo a {
+    font-size: 1.35rem;
+  }
+
+  .header #menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.1rem;
+    margin: 0.6rem 0 0 0 !important;
+    padding: 0;
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .header #menu li {
+    width: 100%;
+  }
+
+  .header #menu li a {
+    display: block;
+    padding: 0.5rem 0.6rem;
+    border-radius: 7px;
+    transition: background 0.15s ease;
+  }
+
+  .header #menu li a:hover {
+    background: var(--tertiary);
+  }
+
+  .header #menu .active {
+    border-bottom: none;
+    font-weight: 700;
+  }
+
+  /* Left-align the main content next to the sidebar (normal docs layout)
+     instead of centering it in the remaining space. */
+  .main {
+    margin-left: 2rem;
+    margin-right: auto;
+  }
+  .footer {
+    margin-left: 2rem;
+    margin-right: auto;
+    text-align: left;
+  }
+}

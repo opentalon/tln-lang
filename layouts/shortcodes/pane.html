@@ -1,0 +1,18 @@
+{{- /*
+  A single code pane inside {{< compare >}}.
+    title = header shown above the code
+    lang  = "prolog" (real Chroma highlight) or "tln" (rendered as a plain
+            highlight block, then recolored client-side by tln-highlight.js).
+  Rendering both through Hugo's highlight keeps identical, correct structure
+  (proper .highlight/pre wrapper, monokai background, white-space: pre).
+*/ -}}
+{{- $lang := .Get "lang" -}}
+{{- $title := .Get "title" -}}
+{{- $code := trim .Inner "\n" -}}
+{{- $hl := cond (eq $lang "tln") "text" $lang -}}
+{{- $html := highlight $code $hl "" -}}
+{{- if eq $lang "tln" }}{{ $html = $html | replaceRE "language-text" "language-tln" }}{{ end -}}
+<div class="compare-pane compare-pane--{{ $lang }}">
+  {{- with $title }}<div class="compare-pane__title">{{ . }}</div>{{ end -}}
+  {{ $html | safeHTML }}
+</div>

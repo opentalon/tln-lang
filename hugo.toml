@@ -1,0 +1,64 @@
+baseURL = "https://tln-lang.org/"
+locale = "en-us"
+title = "Tln — The Modern Expert-System Language"
+theme = "PaperMod"
+
+enableRobotsTXT = false
+enableEmoji = true
+
+[params]
+  env = "production"
+  label = { text = "Tln" }
+  description = "Tln modernizes legacy Prolog expert systems into a deterministic, testable, data-native rule platform — with built-in ML primitives, MCP tool orchestration, and a native Go engine."
+  author = "OpenTalon"
+  defaultTheme = "auto"
+  ShowReadingTime = false
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = false
+  hideMeta = true
+  disableSpecial1stPost = true
+  hideSocialInFooter = true
+  DateFormat = "2006-01-02"
+
+  [params.assets]
+    favicon = "/favicon.svg"
+    favicon16x16 = "/favicon.svg"
+    favicon32x32 = "/favicon.svg"
+    apple_touch_icon = "/favicon.svg"
+    disableHLJS = true
+
+[markup]
+  [markup.highlight]
+    style = "monokai"
+    lineNos = false
+    noClasses = true
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[menu]
+  [[menu.main]]
+    identifier = "language"
+    name = "Language"
+    url = "/docs/"
+    weight = 10
+  [[menu.main]]
+    identifier = "plugins"
+    name = "Plugins"
+    url = "/plugins/"
+    weight = 20
+  [[menu.main]]
+    identifier = "db"
+    name = "DB"
+    url = "/db/"
+    weight = 30
+  [[menu.main]]
+    identifier = "opentalon"
+    name = "OpenTalon"
+    url = "/opentalon/"
+    weight = 40

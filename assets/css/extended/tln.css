@@ -1,0 +1,32 @@
+/*
+ * Tln token colors — ported from the Tln Monaco editor plugin (GitHub-dark
+ * palette). Applied by assets/js/tln-highlight.js to `code.language-tln`,
+ * which Hugo renders as a normal highlight block (monokai background,
+ * white-space: pre) just like the Prolog panes beside it.
+ */
+/* PaperMod sets `.md-content pre code { display:grid }`, which turns every
+   child into its own row. Chroma wraps each line in a .line span (so rows =
+   lines); our flat token stream would put every token on its own row. Force a
+   normal preformatted block instead. THIS is what keeps Tln code on one line. */
+.md-content pre code.language-tln {
+  display: block;
+  white-space: pre;
+  word-break: normal;
+}
+
+.compare-pane--tln { --tln-accent: #7ee787; }
+
+.tln-com      { color: #8b949e; font-style: italic; }
+.tln-block    { color: #d2a8ff; font-weight: 700; }
+.tln-clause   { color: #ff7b72; }
+.tln-ml       { color: #7ee787; }
+.tln-unit     { color: #ffa657; }
+.tln-strop    { color: #79c0ff; }
+.tln-test     { color: #d2a8ff; }
+.tln-priority { color: #ff7b72; font-weight: 700; }
+.tln-bool     { color: #79c0ff; }
+.tln-str      { color: #a5d6ff; }
+.tln-escape   { color: #d2a8ff; }
+.tln-interp   { color: #ffa657; font-style: italic; }
+.tln-num      { color: #79c0ff; }
+.tln-op       { color: #e6edf3; }
