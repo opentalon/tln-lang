@@ -82,8 +82,8 @@ ancestor(X, Z) :- parent(X, Z).
 ancestor(X, Z) :- parent(X, Y), ancestor(Y, Z).
 {{< /pane >}}
 {{< pane title="Tln" lang="tln" >}}
-// facts:  record(fam, "bob", person, ...)
-//         attr(fam, "bob", "parent", "tom")
+// facts:  record(family, "bob", person, ...)
+//         attr(family, "bob", "parent", "tom")
 
 detect "Children of Tom" {
   for records where type == "person"
