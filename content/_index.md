@@ -21,6 +21,10 @@ The world moves faster than it did in 1995. We have new languages, new framework
 all — LLMs. That shift is exactly what calls for a Prolog successor built for today's world: one
 with native **MCP support**, a **plugin system**, and more.
 
+It also brings modern language ergonomics built into the core — including **metaprogramming**:
+compile-time macros in the spirit of Elixir (`defmacro` / `quote` / `unquote`) that generate rules
+*before* validation, so boilerplate disappears while the runtime stays pure and deterministic.
+
 And Tln isn't just a language — it's a whole **ecosystem**: the language itself, plugins,
 databases, and even agentic orchestration. Connecting expert systems to **agents**, **MCP**, and
 **business rules** is the goal of Tln.

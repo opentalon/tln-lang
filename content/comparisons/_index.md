@@ -61,6 +61,7 @@ Fewer moving parts, and the outcome is declared rather than scripted. Explore th
 comparisons below.
 
 And it isn't only rewrite-by-hand: existing Prolog can be **ported**. The relational subset lowers
-to native Tln rules, and the genuinely Prolog-only parts (compound terms, cut, `assert`,
-arithmetic) keep running on the pure-Go [`tln-prolog`](/plugins/#prolog-runtime--tln-prolog) engine —
-no external Prolog required.
+to native Tln rules — even recursive ones with comparison/threshold **guards** — while the
+genuinely Prolog-only parts (compound terms, cut, `assert`, value-inventing arithmetic) keep
+running on the pure-Go [`tln-prolog`](/plugins/#prolog-runtime--tln-prolog) engine — no external
+Prolog required.

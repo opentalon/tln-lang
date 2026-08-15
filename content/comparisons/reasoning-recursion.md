@@ -93,6 +93,22 @@ Tln says *undefined* and means it. (Recursive/negated rules currently live at th
 see [`docs/well-founded.md`](https://github.com/opentalon/tln-language/blob/master/docs/well-founded.md);
 a `.tln` surface syntax rides with self-hosting.)
 
+## Bounded recursion with guards
+
+Real recursive Prolog leans on arithmetic — but usually as **guards**, not term construction:
+"reachable within N hops", "follow edges while the running weight stays under a cap", "walk only
+nodes whose name starts with…". Tln's recursive resolver evaluates comparison (`< <= > >= !=`),
+string (`starts_with` / `contains` / …), and membership (`in` / `not_in`) predicates as **guards**
+inside a recursive rule body — on both the top-down and well-founded resolvers.
+
+A guard only *filters* already-bound values; it binds no fresh variable and invents nothing outside
+the facts, so the fixpoint still terminates. That moves **bounded reachability, threshold/weight
+walks, and string-filtered recursion** from engine-only to native, terminating Tln rules.
+
+What stays on [`tln-prolog`](/plugins/#prolog-runtime--tln-prolog): **value-inventing** arithmetic
+— e.g. `N1 is N - 1` fed back into the recursion — which builds new values and would break the
+finite-model guarantee.
+
 ## Takeaway
 
 For everyday deduction Tln stays deliberately close to Prolog — you're writing rule heads and

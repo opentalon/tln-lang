@@ -95,10 +95,12 @@ The fourth plugin is aimed squarely at the migration story:
 Prolog program can run in the Tln world with **no Prolog installed** (no SWI, no GNU).
 
 Porting is the point: Prolog is the source, Tln is the target. The **relational subset** of a `.pl`
-file lowers to native Tln rules on the core engine. But core is flat-EAV / Datalog, which has no
-function symbols — so Prolog's compound terms and lists, cut-dependent control, `assert`/`retract`,
-and arithmetic **can't** become core rules. Those parts run on `tln-prolog` instead — same
-ecosystem, still no external Prolog:
+file lowers to native Tln rules on the core engine — including recursive rules whose arithmetic is
+just a **guard** (comparisons, string tests, membership: bounded reachability, threshold/weight
+walks). But core is flat-EAV / Datalog with no function symbols, so Prolog's compound terms and
+lists, cut-dependent control, `assert`/`retract`, and **value-inventing** arithmetic (`N1 is N-1`
+fed back into recursion) **can't** become core rules. Those parts run on `tln-prolog` instead —
+same ecosystem, still no external Prolog:
 
 ```prolog
 % Lists + compound terms — no flat-EAV / Datalog equivalent,
