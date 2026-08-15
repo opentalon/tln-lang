@@ -21,6 +21,7 @@ plugin "mcp"    "v0.1.0"
 plugin "io"     "v0.1.0"
 plugin "asp"    "v0.1.0"
 plugin "prolog" "v0.1.0"
+plugin "db"     "v0.1.0" store   # a store plugin
 ```
 
 ```bash
@@ -106,8 +107,17 @@ hands the plugin the writer/reader — no paths in the rule.
 ## Storage — `tln-db`
 
 The other SPI is the `FactStore`. [`tln-db`](/db/) is the Go-native fact store behind it — embed it
-as a library or run it as a gRPC/HTTP sidecar. The same interface accepts other backends
-(in-memory for tests, Datalevin, …). Details on the **[DB](/db/)** page.
+as a library or run it as a gRPC/HTTP sidecar. Declared as a **store plugin**
+(`plugin "db" "v0.1.0" store`), it's selected in `config/store.tln` — Active-Record style — and the
+bundled client is thin (it just dials the sidecar):
+
+```tln
+# config/store.tln
+store db { target env "TLNDB_ADDR" }   # e.g. unix:///tmp/tlndb.sock
+```
+
+The same interface accepts other backends (in-memory for tests, Datalevin, …). Details on the
+**[DB](/db/)** page.
 
 ## Solver — `tln-asp`
 

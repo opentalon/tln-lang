@@ -16,9 +16,24 @@ in `.tln`. `tln-db` stores, indexes, and queries them.
 - **Sidecar** — a standalone `tlndb-server` over gRPC (Unix socket or TCP) with an HTTP/JSON debug
   endpoint, so several processes can share one store (Postgres-style local socket).
 
-```bash
-tln run rules.tln --store tln-db --tlndb unix:///path/to.sock
+## Select it as your store
+
+With the [bundle system](/plugins/#bundling--modtln), tln-db is a **store plugin** you declare in
+`mod.tln` and point at the sidecar in `config/store.tln` — Active-Record style, no Go host:
+
+```tln
+# mod.tln
+plugin "db" "v0.1.0" store
 ```
+
+```tln
+# config/store.tln
+store db { target env "TLNDB_ADDR" }   # e.g. unix:///tmp/tlndb.sock
+```
+
+`tln bundle` wires it in through the store factory; the bundled `tlnstore` client is **thin** — it
+just dials `tlndb-server` (no bbolt / HNSW / roaring pulled in), so a bundle stays light while the
+heavy engine lives in the sidecar.
 
 ## What's inside
 
