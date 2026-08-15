@@ -97,6 +97,8 @@ Modern capabilities beyond classic Prolog:
 - **[Metaprogramming](/beyond-prolog/metaprogramming/)** — compile-time macros
   (`defmacro` / `quote` / `unquote`, Elixir-style) that generate rules before validation, keeping
   the runtime pure.
+- **[Workflows & agents](/workflows/)** — reactive `on` triggers firing `workflow` steps of tool
+  calls: deterministic automations the LLM authors once, with no equivalent construct in Prolog.
 
 And in production it's the decision core of **[OpenTalon](/opentalon/)**, the enterprise
 AI-orchestration ecosystem: the LLM handles intent, Tln handles knowledge and inference.

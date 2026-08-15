@@ -16,3 +16,5 @@ Tln goes further than ISO Prolog:
 - **[Metaprogramming](/beyond-prolog/metaprogramming/)** — compile-time macros
   (`defmacro` / `quote` / `unquote`, Elixir-style) that generate rules before validation, keeping
   the runtime pure.
+- **[Workflows & agents](/workflows/)** — reactive `on` triggers firing `workflow` steps of tool
+  calls: deterministic automations the LLM authors once, with no equivalent construct in Prolog.
