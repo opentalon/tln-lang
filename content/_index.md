@@ -86,7 +86,7 @@ and the same `detect` block can escalate straight into an MCP workflow.
 
 ## Beyond Prolog
 
-Things classic Prolog has no native answer for:
+Modern capabilities beyond classic Prolog:
 
 - **[MCP tool orchestration](/beyond-prolog/mcp-workflows/)** — `workflow`, reactive
   `on change → workflow`, scheduled `collect`, and stale-fact `enrich`, all calling real tools.
@@ -94,6 +94,9 @@ Things classic Prolog has no native answer for:
   `find similar` — 11 explainable primitives, no external pipeline.
 - **[A real test framework](/beyond-prolog/testing/)** — `.tln.test` with `given` / `when` /
   `expect`, so rules are verified, not hoped.
+- **[Metaprogramming](/beyond-prolog/metaprogramming/)** — compile-time macros
+  (`defmacro` / `quote` / `unquote`, Elixir-style) that generate rules before validation, keeping
+  the runtime pure.
 
 And in production it's the decision core of **[OpenTalon](/opentalon/)**, the enterprise
 AI-orchestration ecosystem: the LLM handles intent, Tln handles knowledge and inference.

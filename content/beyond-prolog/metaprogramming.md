@@ -4,11 +4,6 @@ weight: 4
 description: "Compile-time macros — code that writes rules, the Elixir way — built into Tln core."
 ---
 
-> A **core** feature, merged to `master`: the macro-expansion phase runs inside the compiler,
-> between import resolution and validation. The grammar shown here is the design
-> ([ADR 0011](https://github.com/opentalon/tln-language/blob/master/docs/design/0011-compile-time-macros.md));
-> today the phase ships as an identity transform while the rewrite engine is filled in.
-
 Tln does metaprogramming the **Elixir way**: macros are code that writes code, and they run at
 **compile time**. A `defmacro` expands into ordinary blocks *before* validation and planning — so
 the validator, planner, and runtime never see a macro, and the engine stays exactly as
