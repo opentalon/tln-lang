@@ -10,7 +10,6 @@ enableEmoji = true
   env = "production"
   label = { text = "Tln" }
   description = "Tln modernizes legacy Prolog expert systems into a deterministic, testable, data-native rule platform — with built-in ML primitives, MCP tool orchestration, and a native Go engine."
-  author = "OpenTalon"
   defaultTheme = "auto"
   ShowReadingTime = false
   ShowShareButtons = false
