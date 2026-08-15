@@ -116,8 +116,9 @@ bundled client is thin (it just dials the sidecar):
 store db { target env "TLNDB_ADDR" }   # e.g. unix:///tmp/tlndb.sock
 ```
 
-The same interface accepts other backends (in-memory for tests, Datalevin, …). Details on the
-**[DB](/db/)** page.
+The same `FactStore` interface accepts other backends — an **in-memory** store (tests / REPL) and
+**[Datalevin](https://github.com/juji-io/datalevin)**, a Datalog database spoken over HTTP, both
+ship today. Details on the **[DB](/db/)** page.
 
 ## Solver — `tln-asp`
 

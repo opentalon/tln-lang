@@ -35,6 +35,12 @@ store db { target env "TLNDB_ADDR" }   # e.g. unix:///tmp/tlndb.sock
 just dials `tlndb-server` (no bbolt / HNSW / roaring pulled in), so a bundle stays light while the
 heavy engine lives in the sidecar.
 
+Choosing a store is **opt-in and code-free**. With no `config/store.tln`, Tln uses the built-in
+**in-memory** store — delete those two lines and you're back to memory, same `rules.tln`. A project
+has **at most one** store, resolved by precedence: a host's `WithFactStore` wins → else the manifest
+store plus `config/store.tln` → else in-memory. Config values resolve from the environment at run
+time (`env "TLNDB_ADDR"`), so no address or secret lives in the source.
+
 ## What's inside
 
 Built on proven Go building blocks, tuned for rule evaluation:
@@ -55,8 +61,11 @@ exact where it must be.
 ## Swappable and tested
 
 `tln-db` ships a **conformance suite** that any `FactStore` backend runs against, so alternatives
-(in-memory, Pebble, …) can drop in without language-level changes. Timestamps are clock-injectable
-for **deterministic** tests, and a mutation event stream (assert / change / retract) makes changes
-auditable — the same determinism-and-explainability story as the language itself.
+drop in without language-level changes. Tln already ships two others behind the same interface: an
+**in-memory** store (tests / REPL) and **[Datalevin](https://github.com/juji-io/datalevin)** — a
+Datalog database — which Tln speaks over HTTP by rendering queries to Datalog and sending them to a
+running `datalevin-server`. Timestamps are clock-injectable for **deterministic** tests, and a
+mutation event stream (assert / change / retract) makes changes auditable — the same
+determinism-and-explainability story as the language itself.
 
 Source: [github.com/opentalon/tln-db](https://github.com/opentalon/tln-db).
