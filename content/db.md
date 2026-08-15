@@ -61,11 +61,21 @@ exact where it must be.
 ## Swappable and tested
 
 `tln-db` ships a **conformance suite** that any `FactStore` backend runs against, so alternatives
-drop in without language-level changes. Tln already ships two others behind the same interface: an
-**in-memory** store (tests / REPL) and **[Datalevin](https://github.com/juji-io/datalevin)** — a
-Datalog database — which Tln speaks over HTTP by rendering queries to Datalog and sending them to a
-running `datalevin-server`. Timestamps are clock-injectable for **deterministic** tests, and a
-mutation event stream (assert / change / retract) makes changes auditable — the same
-determinism-and-explainability story as the language itself.
+drop in without language-level changes. Core itself ships only the built-in **in-memory** store
+(tests / REPL); every other backend is a store plugin. The other one today is
+**[`tln-datalevin`](https://github.com/opentalon/tln-datalevin)** — the HTTP client for the JVM
+`datalevin-server` (Clojure Datalog), a sidecar like tln-db but a different transport. It's selected
+the same Active-Record way:
+
+```tln
+# mod.tln
+plugin "datalevin" "v0.1.0" store
+# config/store.tln
+store datalevin { url env "DATALEVIN_URL" }   # e.g. http://localhost:8898
+```
+
+Timestamps are clock-injectable for **deterministic** tests, and a mutation event stream
+(assert / change / retract) makes changes auditable — the same determinism-and-explainability story
+as the language itself.
 
 Source: [github.com/opentalon/tln-db](https://github.com/opentalon/tln-db).
