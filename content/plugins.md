@@ -9,6 +9,32 @@ no non-deterministic search itself. Every edge — storage, tools, solvers, chan
 **plugin** injected by the host. That's what keeps the core deterministic and testable, and the
 system extensible.
 
+## Bundling — `mod.tln`
+
+You don't need a Go host to use plugins. A program declares the ones it needs in a **`mod.tln`**
+manifest — one line per plugin, Bundler-style — and the `tln` CLI wires them up. Adding a plugin
+is a one-liner, not a program:
+
+```tln
+# mod.tln — one line per plugin
+plugin "mcp"    "v0.1.0"
+plugin "io"     "v0.1.0"
+plugin "asp"    "v0.1.0"
+plugin "prolog" "v0.1.0"
+```
+
+```bash
+tln init demo && cd demo   # scaffold mod.tln + rules.tln
+tln bundle                 # like `bundle install` — fetch, compile, lock (mod.lock)
+tln run rules.tln          # connectors resolve to the bundled plugins
+```
+
+Under the hood `tln bundle` doesn't dynamically load code (Go can't, without core importing the
+plugin — a cycle). It **generates and compiles**: a project-local bootstrap imports core plus each
+declared plugin, registers their factories, `go build`s a project-local `tln`, and writes a
+`mod.lock`; `tln run` re-execs it. **Core still imports zero plugins** — the manifest is the only
+place a program names its edges. Below are the plugins you can declare.
+
 ## Tools — the `tool` verb
 
 A block calls a tool with the plugin-neutral **`tool`** verb — `tool "server" "name" { … }`. The

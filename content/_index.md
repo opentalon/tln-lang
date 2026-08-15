@@ -99,6 +99,8 @@ Modern capabilities beyond classic Prolog:
   the runtime pure.
 - **[Workflows & agents](/workflows/)** — reactive `on` triggers firing `workflow` steps of tool
   calls: deterministic automations the LLM authors once, with no equivalent construct in Prolog.
+- **[Package bundling](/plugins/#bundling--modtln)** — a `mod.tln` manifest + `tln bundle`
+  (Bundler-style) pull in plugins; ISO Prolog has no standard package system.
 
 And in production it's the decision core of **[OpenTalon](/opentalon/)**, the enterprise
 AI-orchestration ecosystem: the LLM handles intent, Tln handles knowledge and inference.

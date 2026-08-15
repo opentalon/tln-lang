@@ -18,3 +18,5 @@ Tln goes further than ISO Prolog:
   the runtime pure.
 - **[Workflows & agents](/workflows/)** — reactive `on` triggers firing `workflow` steps of tool
   calls: deterministic automations the LLM authors once, with no equivalent construct in Prolog.
+- **[Package bundling](/plugins/#bundling--modtln)** — a `mod.tln` manifest + `tln bundle`
+  (Bundler-style) pull in plugins; ISO Prolog has no standard package system.
