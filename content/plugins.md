@@ -135,6 +135,41 @@ into any FactStore.
                      tln-db   tln-mcp · io-tln  tln-asp
 ```
 
+## Two ways to run — standalone or hosted
+
+Because the core is transport-free, the same `.tln` program runs in two modes, resolved by a fixed
+precedence: **host binding → `connector` block → built-in `io` → error**.
+
+- **Standalone.** The program declares its own `connector` blocks — with `env` for endpoints and
+  credentials — so it runs with **no Go host**. `tln run` wires the plugins the source names, and
+  the built-in `io` server needs no declaration:
+
+  ```tln
+  connector "inventory" via mcp {
+    endpoint env "INVENTORY_ENDPOINT"
+    bearer   env "INVENTORY_TOKEN"
+  }
+
+  detect "Overdue" {
+    for records where type == "vehicle" and attr "km" > attr "service_due_km"
+    flag matching items
+    remediate {
+      tool "inventory" "create-refill-order" { item_id item.id quantity 5 }
+      tool "io" "writeln" { text "reordered {item.id}" }
+    }
+  }
+  ```
+
+- **Hosted** (e.g. **[OpenTalon](/opentalon/)**). A Go host binds the plugins itself
+  (`tln.WithToolResolver(…)`), and that binding **wins** — the same rules run unchanged, with the
+  host owning endpoints, credentials, and I/O. For LLM-authored source the host sandboxes it: `env`
+  is cut and `io` restricted, so a generated program can't reach secrets or the filesystem.
+
+Two guardrails make this safe: `env` is **connector-scoped** (it parses *only* inside a connector's
+config — never in a `label`, a stored fact, or a `tool` argument, so a credential can't leak into
+data), and `connector`/`env` are **author-only** (a metaprogramming macro may emit `tool` calls but
+never a connector).
+
 ## Prolog runtime — `tln-prolog`
 
 The fourth plugin is aimed squarely at the migration story:

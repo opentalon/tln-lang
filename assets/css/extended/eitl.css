@@ -1,0 +1,27 @@
+/* Expert-in-the-Loop diagram (OpenTalon page). Uses currentColor so it adapts
+   to light/dark; the Tln box uses the accent green. */
+.eitl {
+  margin: 1.75rem 0;
+}
+.eitl svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.eitl figcaption {
+  font-size: 0.85rem;
+  opacity: 0.65;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+.eitl .box { fill: none; stroke: currentColor; stroke-opacity: 0.35; }
+.eitl .box-tln { stroke: #2fa85a; stroke-width: 2; fill: #7ee787; fill-opacity: 0.08; }
+.eitl .title { fill: currentColor; font: 700 16px system-ui, sans-serif; }
+.eitl .title-tln { fill: #2fa85a; }
+.eitl .sub { fill: currentColor; fill-opacity: 0.6; font: 11.5px ui-monospace, monospace; }
+.eitl .flow { stroke: currentColor; stroke-opacity: 0.55; fill: none; }
+.eitl .flow-dash { stroke: currentColor; stroke-opacity: 0.45; fill: none; stroke-dasharray: 4 3; }
+.eitl .lbl { fill: currentColor; fill-opacity: 0.6; font: 11.5px system-ui, sans-serif; }
+.eitl .arrow { fill: currentColor; fill-opacity: 0.6; }
