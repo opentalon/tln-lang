@@ -1,0 +1,37 @@
+{{- /* SEO: extra meta + JSON-LD structured data. PaperMod already emits
+       canonical, description, Open Graph, and Twitter tags. */ -}}
+<meta name="theme-color" content="#1a1a2e">
+<meta name="keywords" content="Tln, tln-lang, expert system, Prolog, ISO Prolog, Datalog, rule engine, rule language, MCP, Model Context Protocol, Answer Set Programming, ASP, OpenTalon, LLM, Expert-in-the-Loop, business rules, agentic orchestration">
+
+{{- if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Tln",
+  "alternateName": "Tln — The Modern Expert-System Language",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "description": {{ site.Params.description | jsonify }},
+  "url": {{ site.BaseURL | jsonify }},
+  "codeRepository": "https://github.com/opentalon/tln-language",
+  "programmingLanguage": "Go",
+  "keywords": "expert system, Prolog modernization, rule language, MCP, ASP, Datalog",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": {
+    "@type": "Organization",
+    "name": "OpenTalon",
+    "url": "https://github.com/opentalon"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ site.Title | jsonify }},
+  "url": {{ site.BaseURL | jsonify }},
+  "description": {{ site.Params.description | jsonify }}
+}
+</script>
+{{- end }}

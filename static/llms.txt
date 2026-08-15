@@ -1,32 +1,45 @@
 # Tln — the modern expert-system language
 
-> Tln modernizes Prolog expert systems (ISO/IEC 13211-1:1995) into a deterministic, testable,
+> Tln modernizes Prolog (ISO/IEC 13211-1:1995) expert systems into a deterministic, testable,
 > data-native rule platform. A native Go engine (lexer → parser → validator → planner → executor)
-> evaluates readable rule blocks over a pluggable FactStore. Rules read like English; facts are
-> loaded from external systems (not written in .tln). Built-in ML primitives, first-class MCP tool
-> orchestration, and a .tln.test framework. In production it is the decision core of OpenTalon,
-> the enterprise AI-orchestration ecosystem (Expert-in-the-Loop: the LLM handles intent, Tln
-> handles knowledge and inference).
+> evaluates readable rule blocks over a pluggable FactStore. Facts are loaded from external systems
+> as entity–attribute triples — record(Entity, Id, Type, Category, Status, Date) and
+> attr(Entity, Id, Name, Value) — never written in .tln. Rules read like English. Core blocks:
+> define, rule (allow/block), detect, recommend, combine. Built-in ML: predict (CART), classify
+> (kNN), forecast (exp smoothing), cluster (DBSCAN), find similar (cosine), anomaly (z-score/Grubbs),
+> learned thresholds, PPR — 11 explainable primitives. MCP tool orchestration (workflow, on-change,
+> collect, enrich) and a .tln.test framework. Plugin architecture: a transport-free core plus SPIs —
+> tools (tln-mcp), storage (tln-db), ASP/stable-model solver (tln-asp), and a pure-Go Prolog runtime
+> for porting (tln-prolog). In production it is the deterministic decision core of OpenTalon, the
+> enterprise AI-orchestration ecosystem (Expert-in-the-Loop: the LLM handles intent, Tln handles
+> knowledge and inference).
 
 ## Docs
-- [Getting Started](https://tln-lang.org/docs/getting-started/): Hello World, the family-tree/ancestor classic, the mental model (facts vs rules, EITL), and the CLI (tln build/test/run/explain/repl).
-- [Language Reference](https://tln-lang.org/docs/reference/): core blocks (define, rule, detect, recommend, combine), values, operators, selectors, templates, priorities.
+- [Getting Started](https://tln-lang.org/docs/getting-started/): Hello World and the family-tree/ancestor classic side-by-side with Prolog; the mental model (facts as record/attr triples loaded externally vs rules; native-Go planner + FactStore; Expert-in-the-Loop); and the CLI (tln build/test/run/explain/repl).
+- [Language Reference](https://tln-lang.org/docs/reference/): core blocks (define, rule, detect, recommend, combine), values, operators, selectors (`for records where …`), templates, and priorities.
 
 ## Prolog → Tln (side-by-side comparisons; ISO Prolog left, Tln right)
-- [Insurance claims](https://tln-lang.org/comparisons/insurance-claims/): block/allow rules, cap detection, conflict resolution by priority.
-- [Derived predicates & recursion](https://tln-lang.org/comparisons/reasoning-recursion/): derive/detect chains, and negation-through-recursion under well-founded semantics (where ISO Prolog's SLDNF loops).
+- [Overview + family tree](https://tln-lang.org/comparisons/): the migration thesis; parent/grandparent/ancestor in Prolog vs a Tln detect over record/attr facts; note that existing Prolog can be ported (relational subset → Tln rules; the rest runs on tln-prolog).
+- [Insurance claims](https://tln-lang.org/comparisons/insurance-claims/): block/allow rules and cap detection; declarative flag/label vs Prolog query-and-print plumbing.
+- [Derived predicates & recursion](https://tln-lang.org/comparisons/reasoning-recursion/): derive/detect chains; negation-through-recursion under well-founded semantics where ISO Prolog's SLDNF loops.
 - [Fleet maintenance](https://tln-lang.org/comparisons/fleet-maintenance/): define/detect service intervals, and a forecast Prolog can't express.
 
 ## Beyond Prolog
-- [MCP tools & workflows](https://tln-lang.org/beyond-prolog/mcp-workflows/): transport-free core + ToolResolver plugin (tln-mcp); reactive on-change → workflow, scheduled collect, remediate. Prolog has no native tool I/O.
-- [Built-in ML](https://tln-lang.org/beyond-prolog/ml/): 11 explainable primitives — predict (CART), classify (kNN), forecast (exp smoothing), cluster (DBSCAN), find similar (cosine), anomaly (z-score/Grubbs), learned thresholds, PPR.
+- [MCP tools & workflows](https://tln-lang.org/beyond-prolog/mcp-workflows/): transport-free core returns tool calls as data; reactive on-change → workflow, scheduled collect, enrich, remediate; resolver plugin tln-mcp. Prolog has no native tool I/O.
+- [Built-in ML](https://tln-lang.org/beyond-prolog/ml/): predict/classify/forecast/cluster/find and the 11 explainable primitives.
 - [Testing](https://tln-lang.org/beyond-prolog/testing/): the .tln.test framework — given / when / expect.
 
+## Plugins (transport-free core; every IO edge is a plugin)
+- [Plugins overview](https://tln-lang.org/plugins/): tools (tln-mcp), storage (tln-db), solver/ASP (tln-asp), Prolog runtime (tln-prolog); the core is a pure language + planner + SPIs.
+- [Tln DB](https://tln-lang.org/db/): Go-native embedded fact store + query engine (bbolt + roaring-bitmap index + HNSW vectors) behind the FactStore interface; library or gRPC/HTTP sidecar.
+
 ## Production
-- [OpenTalon](https://tln-lang.org/opentalon/): the enterprise AI-orchestration system running on Tln; every IO edge is an isolated plugin (tln-mcp tools, tln-db storage, channels, guard-llm, weaviate).
+- [OpenTalon](https://tln-lang.org/opentalon/): the enterprise AI-orchestration system running on Tln; the LLM emits Tln scenarios in a restricted DSL, experts author Tln rules, every IO edge is an isolated plugin.
 
 ## Source
 - Language: https://github.com/opentalon/tln-language
 - MCP tool plugin: https://github.com/opentalon/tln-mcp
 - Fact store: https://github.com/opentalon/tln-db
+- ASP / stable-model solver: https://github.com/opentalon/tln-asp
+- Prolog runtime: https://github.com/opentalon/tln-prolog
 - Orchestration: https://github.com/opentalon/opentalon
