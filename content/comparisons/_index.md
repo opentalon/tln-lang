@@ -59,3 +59,8 @@ detect "Children of Tom" {
 
 Fewer moving parts, and the outcome is declared rather than scripted. Explore the full worked
 comparisons below.
+
+And it isn't only rewrite-by-hand: existing Prolog can be **ported**. The relational subset lowers
+to native Tln rules, and the genuinely Prolog-only parts (compound terms, cut, `assert`,
+arithmetic) keep running on the pure-Go [`tln-prolog`](/plugins/#prolog-runtime--tln-prolog) engine —
+no external Prolog required.

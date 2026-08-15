@@ -1,6 +1,6 @@
 ---
 title: "Plugins"
-description: "Tln's core is transport-free — every edge is a plugin: tools (tln-mcp), storage (tln-db), solver (tln-asp), and the OpenTalon integrations."
+description: "Tln's core is transport-free — every edge is a plugin: tools (tln-mcp), storage (tln-db), solver (tln-asp), and a Prolog runtime (tln-prolog)."
 ---
 
 Tln's language core is a **pure language + planner**: it decides *which* facts to read, *which*
@@ -87,3 +87,31 @@ into any FactStore.
                    FactStore   ToolResolver  Solver
                      tln-db       tln-mcp    tln-asp
 ```
+
+## Prolog runtime — `tln-prolog`
+
+The fourth plugin is aimed squarely at the migration story:
+[`tln-prolog`](https://github.com/opentalon/tln-prolog) is a **pure-Go Prolog engine** — so a
+Prolog program can run in the Tln world with **no Prolog installed** (no SWI, no GNU).
+
+Porting is the point: Prolog is the source, Tln is the target. The **relational subset** of a `.pl`
+file lowers to native Tln rules on the core engine. But core is flat-EAV / Datalog, which has no
+function symbols — so Prolog's compound terms and lists, cut-dependent control, `assert`/`retract`,
+and arithmetic **can't** become core rules. Those parts run on `tln-prolog` instead — same
+ecosystem, still no external Prolog:
+
+```prolog
+% Lists + compound terms — no flat-EAV / Datalog equivalent,
+% so this keeps running on the tln-prolog engine, unchanged.
+conc([], L, L).
+conc([H|T], L, [H|R]) :- conc(T, L, R).
+```
+
+It carries what core deliberately lacks: structured terms (`Var · Atom · Int · Compound`),
+unification with a sound occurs-check, a depth-bounded SLD machine (backtracking, fresh-clause
+renaming), and an ISO-subset `.pl` reader that **never drops anything silently** — unsupported
+constructs come back as typed diagnostics. Answers project to `[]factstore.Fact`, so results flow
+into any Tln FactStore.
+
+So the [Prolog → Tln](/comparisons/) comparisons aren't only "rewrite by hand": existing Prolog
+can be **ported** — the relational parts become Tln rules, the rest keeps running on `tln-prolog`.
