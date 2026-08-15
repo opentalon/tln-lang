@@ -35,6 +35,9 @@
 - [Plugins overview](https://tln-lang.org/plugins/): the plugin-neutral `tool` verb; tools (tln-mcp), I/O (io-tln), storage (tln-db), solver/ASP (tln-asp), Prolog runtime (tln-prolog); the core is a pure language + planner + SPIs.
 - [Tln DB](https://tln-lang.org/db/): Go-native embedded fact store + query engine (bbolt + roaring-bitmap index + HNSW vectors) behind the FactStore interface; library or gRPC/HTTP sidecar.
 
+## Agents & workflows
+- [Workflows & agents](https://tln-lang.org/workflows/): deterministic agents — the LLM authors a Tln automation once (probabilistic), the runtime runs it every tick with no model in the loop (deterministic). `on` triggers fire `workflow` blocks whose steps call tools; hosted by opentalon-agents. Based on the Deterministic-Where-It-Matters article.
+
 ## Production
 - [OpenTalon](https://tln-lang.org/opentalon/): the enterprise AI-orchestration system running on Tln; the LLM emits Tln scenarios in a restricted DSL, experts author Tln rules, every IO edge is an isolated plugin.
 

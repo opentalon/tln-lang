@@ -68,6 +68,11 @@ enableEmoji = true
     url = "/db/"
     weight = 30
   [[menu.main]]
+    identifier = "workflows"
+    name = "Workflows"
+    url = "/workflows/"
+    weight = 35
+  [[menu.main]]
     identifier = "opentalon"
     name = "OpenTalon"
     url = "/opentalon/"
