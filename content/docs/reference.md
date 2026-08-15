@@ -118,76 +118,10 @@ MEDIUM     within weeks            LOW    informational
 
 ## Metaprogramming — compile-time macros
 
-> Metaprogramming is a **core** feature (merged to `master`): the macro-expansion phase runs inside
-> the compiler, between import resolution and validation. The grammar shown here is the design
-> ([ADR 0011](https://github.com/opentalon/tln-language/blob/master/docs/design/0011-compile-time-macros.md));
-> the phase currently ships as an identity transform while the rewrite engine is filled in.
-
-Tln does metaprogramming the **Elixir way**: macros are code that writes code, and they run at
-**compile time**. A `defmacro` expands into ordinary blocks *before* validation and planning — so
-the validator, planner, and runtime never see a macro, and the engine stays exactly as
-deterministic and terminating as always. The one place unbounded computation is allowed is
-expansion itself, bounded by a step budget (a compile error, never a runtime hang). That's also
-why macros live **in core, not a plugin**: only core owns the grammar and the compile phases.
-
-`quote` turns a block into an AST value, `unquote` splices a value in, and `defmacro` is a
-compile-time function from arguments to AST. Here a single macro kills the boilerplate across
-near-identical `detect` rules — and, since Prolog is homoiconic, it *is* expressible in Prolog too,
-via the classic `term_expansion/2` hook:
-
-{{< compare >}}
-{{< pane title="ISO Prolog (1995)" lang="prolog" >}}
-% Compile-time metaprogramming via term_expansion/2:
-% each over_threshold/3 fact is rewritten, as it is read,
-% into a high/1 rule.
-term_expansion(over_threshold(Name, Metric, Limit),
-               ( high(Item) :-
-                    record(_, Item, item, _, _, _),
-                    attr(_, Item, Metric, V),
-                    V > Limit )).
-
-over_threshold(temperature, temp_c, 80).
-over_threshold(pressure,    psi,   200).
-{{< /pane >}}
-{{< pane title="Tln" lang="tln" >}}
-defmacro over_threshold(name, metric, limit, prio) {
-  quote {
-    detect "High {unquote(name)}" {
-      for records where type == "item"
-        and attr unquote(metric) > unquote(limit)
-      flag matching items
-      label "{item.name}: high {unquote(name)}"
-      priority unquote(prio)
-    }
-  }
-}
-
-over_threshold("temperature", "temp_c", 80, HIGH)
-over_threshold("pressure",    "psi",   200, MEDIUM)
-{{< /pane >}}
-{{< /compare >}}
-
-Both generate two rules from one definition. The difference is *what* they rewrite and *when*:
-Prolog's `term_expansion` (and its runtime cousins `=..`, `call`, `assert`) operate on **Prolog
-terms** — function symbols that flat-EAV Tln core doesn't have, so that runtime "code-as-data"
-belongs to the [`tln-prolog`](/plugins/) engine. Tln's macros instead expand to **AST blocks** at
-compile time, leaving the runtime a pure, deterministic Datalog. The Tln macro above expands into
-exactly two ordinary `detect` blocks:
-
-```tln
-detect "High temperature" {
-  for records where type == "item" and attr "temp_c" > 80
-  flag matching items
-  label "{item.name}: high temperature"
-  priority HIGH
-}
-detect "High pressure" {
-  for records where type == "item" and attr "psi" > 200
-  flag matching items
-  label "{item.name}: high pressure"
-  priority MEDIUM
-}
-```
+Tln has **compile-time macros** built into core — `defmacro` / `quote` / `unquote`, Elixir-style —
+that generate rules *before* validation, so boilerplate disappears while the runtime stays pure and
+deterministic. See **[Metaprogramming](/beyond-prolog/metaprogramming/)** for the full worked
+example and a side-by-side with Prolog's `term_expansion`.
 
 ## Priorities and beyond
 
