@@ -1,6 +1,6 @@
 ---
 title: "Plugins"
-description: "Tln's core is transport-free — every edge is a plugin: tools (tln-mcp), I/O (io-tln), storage (tln-db), solver (tln-asp), and a Prolog runtime (tln-prolog)."
+description: "Tln's core is transport-free — every edge is a plugin: tools (tln-mcp), I/O (tln-io), storage (tln-db), solver (tln-asp), and a Prolog runtime (tln-prolog)."
 ---
 
 Tln's language core is a **pure language + planner**: it decides *which* facts to read, *which*
@@ -41,11 +41,11 @@ connector "inventory" via mcp {
 `collect` / `enrich` / `remediate` dispatch through the same resolver. See
 [MCP & workflows](/beyond-prolog/mcp-workflows/) for more.
 
-## I/O — `io-tln`
+## I/O — `tln-io`
 
 Not every tool call goes to a remote server. Tln core is **effect-free**: it decides *which*
 effects fire and hands them back as data; performing them is a plugin's job.
-[`io-tln`](https://github.com/opentalon/io-tln) is the plugin for the most basic effect — I/O —
+[`tln-io`](https://github.com/opentalon/tln-io) is the plugin for the most basic effect — I/O —
 injected exactly like `tln-mcp`. You call the `io` server like any other tool:
 
 ```tln
@@ -132,7 +132,7 @@ into any FactStore.
                  └──────┬─────────┬─────────┬──┘
                         │ SPI     │ SPI     │ SPI
                    FactStore    ToolResolver    Solver
-                     tln-db   tln-mcp · io-tln  tln-asp
+                     tln-db   tln-mcp · tln-io  tln-asp
 ```
 
 ## Two ways to run — standalone or hosted
@@ -172,7 +172,7 @@ never a connector).
 
 ## Prolog runtime — `tln-prolog`
 
-The fourth plugin is aimed squarely at the migration story:
+One more plugin is aimed squarely at the migration story:
 [`tln-prolog`](https://github.com/opentalon/tln-prolog) is a **pure-Go Prolog engine** — so a
 Prolog program can run in the Tln world with **no Prolog installed** (no SWI, no GNU).
 

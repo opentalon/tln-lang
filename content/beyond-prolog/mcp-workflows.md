@@ -104,7 +104,7 @@ fire and returns them as **data**; a host-injected `ToolResolver` performs the a
 server name is what routes: `tool "inventory" …` reaches an MCP server via
 [`tln-mcp`](https://github.com/opentalon/tln-mcp) (the [Model Context Protocol](https://modelcontextprotocol.io)
 over JSON-RPC), while `tool "io" "writeln"` reaches the built-in
-[`io-tln`](https://github.com/opentalon/io-tln) plugin. Neither is baked into the language.
+[`tln-io`](https://github.com/opentalon/tln-io) plugin. Neither is baked into the language.
 
 In the language you simply **name a server and a tool** — the transport is the host's concern:
 
