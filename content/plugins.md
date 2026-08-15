@@ -119,7 +119,7 @@ store db { target env "TLNDB_ADDR" }   # e.g. unix:///tmp/tlndb.sock
 Core ships only the built-in **in-memory** store (tests / REPL); every other backend is a store
 plugin. Two ship today: `tln-db` (Go, gRPC) and
 **[`tln-datalevin`](https://github.com/opentalon/tln-datalevin)** — the HTTP client for the JVM
-`datalevin-server` (Clojure Datalog) — the same `store` plugin shape, a different transport. Either
+[`datalevin-server`](https://github.com/opentalon/datalevin-server) (Clojure Datalog) — the same `store` plugin shape, a different transport. Either
 is selected the same way (`plugin "datalevin" "v0.1.0" store` + `store datalevin { url env "DATALEVIN_URL" }`).
 Details on the **[DB](/db/)** page.
 

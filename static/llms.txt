@@ -47,6 +47,7 @@
 - I/O plugin: https://github.com/opentalon/tln-io
 - Fact store: https://github.com/opentalon/tln-db
 - Datalevin store plugin: https://github.com/opentalon/tln-datalevin
+- Datalevin server (JVM sidecar): https://github.com/opentalon/datalevin-server
 - ASP / stable-model solver: https://github.com/opentalon/tln-asp
 - Prolog runtime: https://github.com/opentalon/tln-prolog
 - Orchestration: https://github.com/opentalon/opentalon

@@ -64,7 +64,7 @@ exact where it must be.
 drop in without language-level changes. Core itself ships only the built-in **in-memory** store
 (tests / REPL); every other backend is a store plugin. The other one today is
 **[`tln-datalevin`](https://github.com/opentalon/tln-datalevin)** — the HTTP client for the JVM
-`datalevin-server` (Clojure Datalog), a sidecar like tln-db but a different transport. It's selected
+[`datalevin-server`](https://github.com/opentalon/datalevin-server) (Clojure Datalog), a sidecar like tln-db but a different transport. It's selected
 the same Active-Record way:
 
 ```tln
