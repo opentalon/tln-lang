@@ -42,7 +42,7 @@ on change attr "current_stock" to 0 {
 
 workflow "Refill stock" {
   step "reorder" {
-    mcp "inventory" "create-refill-order" {
+    tool "inventory" "create-refill-order" {
       item_id  step("trigger").result.entity
       quantity 50
     }
@@ -60,7 +60,7 @@ rules to reason over. Retries and error handling are declarative too.
 ```tln
 collect "Failure training data" {
   schedule weekly
-  mcp "inventory" "list-items" {
+  tool "inventory" "list-items" {
     query    "status:defective"
     per_page 100
     on_error {
@@ -85,12 +85,12 @@ detect "Overdue for service" {
   flag matching items
   remediate {
     if attr "priority" == "CRITICAL" {
-      mcp "ops" "page_oncall" { vehicle attr "id" severity "critical" }
+      tool "ops" "page_oncall" { vehicle attr "id" severity "critical" }
     } else {
-      mcp "ops" "open_ticket" { vehicle attr "id" reason "overdue service" }
+      tool "ops" "open_ticket" { vehicle attr "id" reason "overdue service" }
     }
     for each channel in ["fleet-ops", "maintenance"] {
-      mcp "slack" "notify" { channel channel text "Vehicle {item.id} overdue for service" }
+      tool "slack" "notify" { channel channel text "Vehicle {item.id} overdue for service" }
     }
   }
 }
@@ -98,26 +98,28 @@ detect "Overdue for service" {
 
 ## How the tools connect — the plugin system
 
-The `mcp "server" "tool" {…}` calls above don't hard-wire any transport. Tln's language core is
-**transport-free**: it decides *which* tool calls fire and returns them as **data**; a
-host-injected `ToolResolver` performs the actual IO. So MCP support isn't baked into the
-language — it's a **plugin**. [`tln-mcp`](https://github.com/opentalon/tln-mcp) is the ready-made
-resolver that speaks the [Model Context Protocol](https://modelcontextprotocol.io) over JSON-RPC.
+The calls above use the plugin-neutral **`tool`** verb — `tool "server" "name" {…}` — and don't
+hard-wire any transport. Tln's language core is **transport-free**: it decides *which* tool calls
+fire and returns them as **data**; a host-injected `ToolResolver` performs the actual IO. The
+server name is what routes: `tool "inventory" …` reaches an MCP server via
+[`tln-mcp`](https://github.com/opentalon/tln-mcp) (the [Model Context Protocol](https://modelcontextprotocol.io)
+over JSON-RPC), while `tool "io" "writeln"` reaches the built-in
+[`io-tln`](https://github.com/opentalon/io-tln) plugin. Neither is baked into the language.
 
-In the language you simply **name the MCP server and tool** — the transport is the host's concern:
+In the language you simply **name a server and a tool** — the transport is the host's concern:
 
 ```tln
 workflow "Notify low stock" {
   step "reorder" {
-    mcp "inventory" "create-refill-order" { item_id item.id quantity 50 }
+    tool "inventory" "create-refill-order" { item_id item.id quantity 50 }
   }
   step "announce" {
-    mcp "slack" "post-message" { channel "#ops" text "reordered {item.id}" }
+    tool "slack" "post-message" { channel "#ops" text "reordered {item.id}" }
   }
 }
 ```
 
-Those `mcp` calls — and `collect` / `enrich` / `remediate` — dispatch to the named server via
+Those `tool` calls — and `collect` / `enrich` / `remediate` — dispatch to the named server via
 JSON-RPC `tools/call`. The host attaches `tln-mcp` (or a mock in tests, a direct HTTP client, an
 internal bus) without touching a single rule.
 

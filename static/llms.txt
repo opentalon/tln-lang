@@ -7,10 +7,12 @@
 > attr(Entity, Id, Name, Value) — never written in .tln. Rules read like English. Core blocks:
 > define, rule (allow/block), detect, recommend, combine. Built-in ML: predict (CART), classify
 > (kNN), forecast (exp smoothing), cluster (DBSCAN), find similar (cosine), anomaly (z-score/Grubbs),
-> learned thresholds, PPR — 11 explainable primitives. MCP tool orchestration (workflow, on-change,
-> collect, enrich) and a .tln.test framework. Plugin architecture: a transport-free core plus SPIs —
-> tools (tln-mcp), storage (tln-db), ASP/stable-model solver (tln-asp), and a pure-Go Prolog runtime
-> for porting (tln-prolog). In production it is the deterministic decision core of OpenTalon, the
+> learned thresholds, PPR — 11 explainable primitives. Tool orchestration via the plugin-neutral
+> `tool "server" "name" {…}` verb (workflow, on-change, collect, enrich), plus a `.tln.test`
+> framework and compile-time metaprogramming (defmacro/quote/unquote). Plugin architecture: a
+> transport-free core plus SPIs — tools (tln-mcp), I/O (io-tln), storage (tln-db), ASP/stable-model
+> solver (tln-asp), and a pure-Go Prolog runtime for porting (tln-prolog). In production it is the
+> deterministic decision core of OpenTalon, the
 > enterprise AI-orchestration ecosystem (Expert-in-the-Loop: the LLM handles intent, Tln handles
 > knowledge and inference).
 
@@ -30,7 +32,7 @@
 - [Testing](https://tln-lang.org/beyond-prolog/testing/): the .tln.test framework — given / when / expect.
 
 ## Plugins (transport-free core; every IO edge is a plugin)
-- [Plugins overview](https://tln-lang.org/plugins/): tools (tln-mcp), storage (tln-db), solver/ASP (tln-asp), Prolog runtime (tln-prolog); the core is a pure language + planner + SPIs.
+- [Plugins overview](https://tln-lang.org/plugins/): the plugin-neutral `tool` verb; tools (tln-mcp), I/O (io-tln), storage (tln-db), solver/ASP (tln-asp), Prolog runtime (tln-prolog); the core is a pure language + planner + SPIs.
 - [Tln DB](https://tln-lang.org/db/): Go-native embedded fact store + query engine (bbolt + roaring-bitmap index + HNSW vectors) behind the FactStore interface; library or gRPC/HTTP sidecar.
 
 ## Production
@@ -39,6 +41,7 @@
 ## Source
 - Language: https://github.com/opentalon/tln-language
 - MCP tool plugin: https://github.com/opentalon/tln-mcp
+- I/O plugin: https://github.com/opentalon/io-tln
 - Fact store: https://github.com/opentalon/tln-db
 - ASP / stable-model solver: https://github.com/opentalon/tln-asp
 - Prolog runtime: https://github.com/opentalon/tln-prolog

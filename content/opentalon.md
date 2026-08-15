@@ -31,7 +31,7 @@ happen and returns it as data. OpenTalon provides the edges as **isolated plugin
 as a **separate OS process over gRPC** — a compromised or buggy plugin can never read the core's
 memory, and plugins can't call each other; only the core/LLM decides what runs next.
 
-- **Tools** — [`tln-mcp`](https://github.com/opentalon/tln-mcp) resolves `mcp` calls over the
+- **Tools** — [`tln-mcp`](https://github.com/opentalon/tln-mcp) resolves `tool` calls over the
   Model Context Protocol. See [MCP & workflows](/beyond-prolog/mcp-workflows/).
 - **Storage** — [`tln-db`](https://github.com/opentalon/tln-db), the Go-native fact store behind
   the `FactStore` interface (bbolt + roaring-bitmap index + HNSW vectors).

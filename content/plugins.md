@@ -1,6 +1,6 @@
 ---
 title: "Plugins"
-description: "Tln's core is transport-free — every edge is a plugin: tools (tln-mcp), storage (tln-db), solver (tln-asp), and a Prolog runtime (tln-prolog)."
+description: "Tln's core is transport-free — every edge is a plugin: tools (tln-mcp), I/O (io-tln), storage (tln-db), solver (tln-asp), and a Prolog runtime (tln-prolog)."
 ---
 
 Tln's language core is a **pure language + planner**: it decides *which* facts to read, *which*
@@ -9,26 +9,57 @@ no non-deterministic search itself. Every edge — storage, tools, solvers, chan
 **plugin** injected by the host. That's what keeps the core deterministic and testable, and the
 system extensible.
 
-## Tools — `tln-mcp`
+## Tools — the `tool` verb
 
-In the language you name an MCP server and tool; the transport is the host's concern:
+A block calls a tool with the plugin-neutral **`tool`** verb — `tool "server" "name" { … }`. The
+server name routes to a host-injected `ToolResolver`; nothing about the transport is baked into the
+rule:
 
 ```tln
 workflow "Notify low stock" {
   step "reorder" {
-    mcp "inventory" "create-refill-order" { item_id item.id quantity 50 }
+    tool "inventory" "create-refill-order" { item_id item.id quantity 50 }
   }
   step "announce" {
-    mcp "slack" "post-message" { channel "#ops" text "reordered {item.id}" }
+    tool "slack" "post-message" { channel "#ops" text "reordered {item.id}" }
   }
 }
 ```
 
-Those `mcp` calls (and `collect` / `enrich` / `remediate`) don't hard-wire any transport — the
-core hands them to a host-injected `ToolResolver`. [`tln-mcp`](https://github.com/opentalon/tln-mcp)
-is the ready-made resolver that speaks the **Model Context Protocol** over JSON-RPC; a mock, a
-direct HTTP client, or an internal bus can stand in without touching a rule. See
+[`tln-mcp`](https://github.com/opentalon/tln-mcp) is the ready-made resolver that routes such
+server names over the **Model Context Protocol** (JSON-RPC); a mock, a direct HTTP client, or an
+internal bus can stand in without touching a rule. A `connector` block binds a server to a plugin
+*in source*, with env-resolved credentials — so a program runs with no Go host:
+
+```tln
+connector "inventory" via mcp {
+  endpoint env "INVENTORY_MCP_URL"
+  auth bearer env "INVENTORY_TOKEN"
+}
+```
+
+`collect` / `enrich` / `remediate` dispatch through the same resolver. See
 [MCP & workflows](/beyond-prolog/mcp-workflows/) for more.
+
+## I/O — `io-tln`
+
+Not every tool call goes to a remote server. [`io-tln`](https://github.com/opentalon/io-tln) is a
+`ToolResolver` for plain **I/O** — write, print, read — injected exactly like `tln-mcp`. It's the
+standalone default: a host owns its own I/O, so the `io` server needs no binding to work.
+
+```tln
+detect "Overdue for service" {
+  for records where type == "vehicle"
+    and attr "km" > attr "last_service_km" + 20000
+  flag matching items
+  remediate {
+    tool "io" "writeln" { text "overdue: {item.id}" }
+  }
+}
+```
+
+A `connector "…" via io { path … | stream … }` points the sink at a file or stdout/stderr; the
+runtime opens it and hands the plugin a writer/reader — no paths or secrets in the rule.
 
 ## Storage — `tln-db`
 
@@ -84,8 +115,8 @@ into any FactStore.
                  │  evaluate  (deterministic)  │
                  └──────┬─────────┬─────────┬──┘
                         │ SPI     │ SPI     │ SPI
-                   FactStore   ToolResolver  Solver
-                     tln-db       tln-mcp    tln-asp
+                   FactStore    ToolResolver    Solver
+                     tln-db   tln-mcp · io-tln  tln-asp
 ```
 
 ## Prolog runtime — `tln-prolog`
