@@ -18,7 +18,7 @@ rule:
 ```tln
 workflow "Notify low stock" {
   step "reorder" {
-    tool "inventory" "create-refill-order" { item_id item.id quantity 50 }
+    tool "inventory" "create-refill-order" { item_id item.id quantity 5 }
   }
   step "announce" {
     tool "slack" "post-message" { channel "#ops" text "reordered {item.id}" }
@@ -33,8 +33,8 @@ internal bus can stand in without touching a rule. A `connector` block binds a s
 
 ```tln
 connector "inventory" via mcp {
-  endpoint env "INVENTORY_MCP_URL"
-  auth bearer env "INVENTORY_TOKEN"
+  endpoint env "INVENTORY_ENDPOINT"
+  bearer   env "INVENTORY_TOKEN"
 }
 ```
 
@@ -43,9 +43,10 @@ connector "inventory" via mcp {
 
 ## I/O — `io-tln`
 
-Not every tool call goes to a remote server. [`io-tln`](https://github.com/opentalon/io-tln) is a
-`ToolResolver` for plain **I/O** — write, print, read — injected exactly like `tln-mcp`. It's the
-standalone default: a host owns its own I/O, so the `io` server needs no binding to work.
+Not every tool call goes to a remote server. Tln core is **effect-free**: it decides *which*
+effects fire and hands them back as data; performing them is a plugin's job.
+[`io-tln`](https://github.com/opentalon/io-tln) is the plugin for the most basic effect — I/O —
+injected exactly like `tln-mcp`. You call the `io` server like any other tool:
 
 ```tln
 detect "Overdue for service" {
@@ -53,13 +54,28 @@ detect "Overdue for service" {
     and attr "km" > attr "last_service_km" + 20000
   flag matching items
   remediate {
-    tool "io" "writeln" { text "overdue: {item.id}" }
+    tool "io" "writeln" { text "overdue: {item.id} at {attr.km} km" }
+    if attr "priority" == "CRITICAL" {
+      tool "io" "eprintln" { text "CRITICAL: {item.id}" }
+    }
   }
 }
 ```
 
-A `connector "…" via io { path … | stream … }` points the sink at a file or stdout/stderr; the
-runtime opens it and hands the plugin a writer/reader — no paths or secrets in the rule.
+The tools are `write`/`writeln` (and `print`/`println`), `write_err`/`eprintln`, `format`
+(printf-style), and `read`/`read_line` (which binds the line back as a value). A `connector` picks
+the destination — the **name you call** is the connector:
+
+```tln
+connector "io"    via io { }                               # stdout (default)
+connector "errs"  via io { stream stderr }                 # stderr
+connector "audit" via io { path "/var/log/tln/audit.log" } # append to a file
+
+tool "audit" "writeln" { text "overdue: {item.id}" }       # → the file
+```
+
+`io` needs no credentials (`env "…"` is an `mcp` concern); the runtime opens the file/stream and
+hands the plugin the writer/reader — no paths in the rule.
 
 ## Storage — `tln-db`
 

@@ -27,7 +27,7 @@ When an item's stock hits zero, place a refill order. In Tln an `on change` bloc
 
 refill(Id) :-
     process_create(path(inventory_cli),
-        ['create-refill-order', '--item', Id, '--qty', '50'],
+        ['create-refill-order', '--item', Id, '--qty', '5'],
         [process(_)]).
 
 % ...and you must notice the stock-out and call refill/1
@@ -44,7 +44,7 @@ workflow "Refill stock" {
   step "reorder" {
     tool "inventory" "create-refill-order" {
       item_id  step("trigger").result.entity
-      quantity 50
+      quantity 5
     }
   }
 }
@@ -111,7 +111,7 @@ In the language you simply **name a server and a tool** — the transport is the
 ```tln
 workflow "Notify low stock" {
   step "reorder" {
-    tool "inventory" "create-refill-order" { item_id item.id quantity 50 }
+    tool "inventory" "create-refill-order" { item_id item.id quantity 5 }
   }
   step "announce" {
     tool "slack" "post-message" { channel "#ops" text "reordered {item.id}" }
