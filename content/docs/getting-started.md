@@ -7,7 +7,7 @@ description: "Your first Tln rule, the mental model, and the CLI."
 ## Hello, World
 
 The smallest useful Tln program finds something in your data and flags it. Here we flag any
-`greeting` record and greet it by name — Prolog on the left, Tln on the right:
+`greeting` record and greet it by name:
 
 {{< compare >}}
 {{< pane title="ISO Prolog (1995)" lang="prolog" >}}
