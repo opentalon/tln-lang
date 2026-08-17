@@ -104,3 +104,12 @@ Modern capabilities beyond classic Prolog:
 
 And in production it's the decision core of **[OpenTalon](/opentalon/)**, the enterprise
 AI-orchestration ecosystem: the LLM handles intent, Tln handles knowledge and inference.
+
+---
+
+## Authors
+
+Tln is designed and built by:
+
+- **zhisme** — [github.com/zhisme](https://github.com/zhisme)
+- **OpakAlex** — [github.com/OpakAlex](https://github.com/OpakAlex)

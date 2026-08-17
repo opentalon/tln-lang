@@ -22,6 +22,9 @@ enableEmoji = true
   hideSocialInFooter = true
   DateFormat = "2006-01-02"
 
+  [params.footer]
+    text = "by [zhisme](https://github.com/zhisme) & [OpakAlex](https://github.com/OpakAlex)"
+
   [params.assets]
     favicon = "/favicon.svg"
     favicon16x16 = "/favicon.svg"
