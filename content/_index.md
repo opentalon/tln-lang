@@ -21,7 +21,7 @@ The world moves faster than it did in 1995. We have new languages, new framework
 all — LLMs. That shift is exactly what calls for a Prolog successor built for today's world: one
 with native **MCP support**, a **plugin system**, and more.
 
-It also brings modern language ergonomics built into the core — including **metaprogramming**:
+It also brings modern language ergonomics into the core — including **metaprogramming**:
 compile-time macros in the spirit of Elixir (`defmacro` / `quote` / `unquote`) that generate rules
 *before* validation, so boilerplate disappears while the runtime stays pure and deterministic.
 
@@ -33,8 +33,8 @@ databases, and even agentic orchestration. Connecting expert systems to **agents
 
 ## Same rule, modernized
 
-A fleet-maintenance check: *flag active vehicles overdue for service.* Left, standard ISO Prolog;
-right, the same decision in Tln.
+A fleet-maintenance check: *flag active vehicles overdue for service* — standard ISO Prolog beside
+the same decision in Tln.
 
 {{< compare >}}
 {{< pane title="ISO Prolog (1995)" lang="prolog" >}}

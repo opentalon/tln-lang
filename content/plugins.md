@@ -167,9 +167,9 @@ into any FactStore.
 
 ```text
                  ┌────────────────────────────┐
-   facts  ─────► │  Tln core: parse → plan →   │ ─────► tool calls (as data)
-                 │  evaluate  (deterministic)  │
-                 └──────┬─────────┬─────────┬──┘
+   facts  ─────► │  Tln core: parse → plan →  │ ─────► tool calls (as data)
+                 │  evaluate  (deterministic) │
+                 └──────┬─────────┬─────────┬─┘
                         │ SPI     │ SPI     │ SPI
                    FactStore    ToolResolver    Solver
                      tln-db   tln-mcp · tln-io  tln-asp

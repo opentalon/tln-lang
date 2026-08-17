@@ -43,8 +43,9 @@ content/
   _index.md              Home (hero, "Why Tln?", flagship comparison)
   docs/                  Language: getting-started, reference (incl. metaprogramming)
   comparisons/           Prolog → Tln, side-by-side (insurance, recursion, fleet, family)
-  beyond-prolog/         MCP & workflows, built-in ML, testing
-  plugins.md             tln-mcp (tools), tln-db (storage), tln-asp (solver), tln-prolog (runtime)
+  beyond-prolog/         MCP & workflows, built-in ML, testing, metaprogramming
+  plugins.md             tln-mcp (tools), tln-io (I/O), tln-db (storage), tln-asp (solver), tln-prolog (runtime)
+  workflows.md           deterministic agents — LLM authors once, runtime executes
   db.md                  tln-db deep-dive
   opentalon.md           Tln in production — the OpenTalon orchestration system
 layouts/

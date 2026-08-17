@@ -67,7 +67,7 @@ forecast "Parts stock-out" {
 }
 ```
 
-There's no left pane here on purpose. ISO Prolog has no notion of a time series or exponential
+There's no Prolog pane here on purpose. ISO Prolog has no notion of a time series or exponential
 smoothing — you'd leave the language entirely, push the data into Python or R, and glue the
 result back. Tln ships forecasting (and anomaly detection, classification, clustering, similarity)
 as first-class blocks with explainable output — see **[Beyond Prolog → ML](/beyond-prolog/ml/)**.

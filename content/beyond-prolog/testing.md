@@ -41,9 +41,9 @@ priority == LOW|MEDIUM|HIGH|CRITICAL
 count == <n>
 ```
 
-A realistic test pins down exactly which records should and shouldn't fire — here, an overdue-
-service detection separating active-overdue vehicles from up-to-date ones, inactive ones, and
-non-vehicles:
+A realistic test pins down exactly which records should and shouldn't fire — here, an
+overdue-service detection separating active-overdue vehicles from up-to-date ones, inactive ones,
+and non-vehicles:
 
 ```tln
 test "Overdue service flags only overdue vehicles" {
@@ -57,11 +57,23 @@ test "Overdue service flags only overdue vehicles" {
     attr 502 "km" 25000
     attr 502 "last_service_km" 25000
     attr 502 "name" "Van B"
+
+    record 503 type "item" category "Vehicles" status "inactive"
+    attr 503 "km" 80000
+    attr 503 "last_service_km" 10000
+    attr 503 "name" "Retired Truck"
+
+    record 504 type "stock_item" status "active"
+    attr 504 "km" 99999
+    attr 504 "last_service_km" 0
+    attr 504 "name" "Brake Pads"
   }
   when detect "Service overdue"
   expect {
     flagged 501
     not flagged 502
+    not flagged 503
+    not flagged 504
     label contains "Truck A"
   }
 }

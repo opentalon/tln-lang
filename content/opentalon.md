@@ -99,7 +99,7 @@ and `io` restricted, so a generated scenario can't reach secrets or the filesyst
 4. Approved actions dispatch through **plugins** (`tln-mcp` tools, channels), each isolated.
 
 The result is an AI system whose decisions are reproducible, auditable, and governed by the people
-accountable for them — with Tln as the deterministic brain at the center.
+accountable for them — with Tln as the deterministic brain at the centre.
 
 ## Explore
 
